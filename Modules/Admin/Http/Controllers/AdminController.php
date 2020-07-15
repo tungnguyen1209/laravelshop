@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use App\Bill_Detail;
 use App\Bills;
 use App\User;
+use App\ProductType;
 use Auth;
 use Session;
 use Hash;
@@ -53,12 +54,27 @@ class AdminController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
-    public function update(Request $request, $id)
+    public function getproduct()
     {
-
+        if(Auth::check())
+        {
+        $product = Product::paginate(10);
+        return view('admin::product', compact('product'));
+        }
+        else{
+            return redirect()->route('login');
+        }
     }
-    public function destroy($id)
+    public function productdetail(Request $request)
     {
-
+        $cat = Product::with('type_products:id,name')->where('id', $request->id)->first();
+        $category = ProductType::where('id', '<>', $cat->type_products->id)->get();
+        //dd($category);
+        $product = Product::where('id', $request->id)->first();
+        return view('admin::product-detail', compact('product', 'category', 'cat'));
+    }
+    public function add_product(){
+        $category = ProductType::all();
+        return view('admin::add_product', compact('category'));
     }
 }

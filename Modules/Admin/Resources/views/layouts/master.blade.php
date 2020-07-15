@@ -89,8 +89,7 @@
                              data-parent="#sidebar-menu">
                             <div class="sub-menu">
                                 <li  class="has-sub" >
-                                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#components"
-                                       aria-expanded="false" aria-controls="components">
+                                    <a class="sidenav-item-link" href="{{route('product')}}" >
                                         <span class="nav-text">Products</span>
                                     </a>
                                 </li>

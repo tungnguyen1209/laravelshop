@@ -32,4 +32,16 @@ Route::prefix('admin')->group(function() {
         'as'=>'logout',
         'uses'=>'AdminController@logout'
     ]);
+    Route::get('product', [
+        'as'=>'product',
+        'uses'=>'AdminController@getproduct'
+    ]);
+    Route::get('product-detail/{id}', [
+        'as'=>'product-detail',
+        'uses'=>'AdminController@productdetail'
+    ]);
+    Route::get('add_product', [
+        'as'=>'add_product',
+        'uses'=>'AdminController@add_product'
+    ]);
 });
