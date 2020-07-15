@@ -1,4 +1,4 @@
-@if(Session::has('Cart') != null)
+@if(Session::has('Cart') != null || isset(Session::get('Cart')->totalQty))
     <table class="shop_table beta-shopping-cart-table" cellspacing="0">
         <thead>
         <tr>
@@ -18,8 +18,6 @@
                         <img class="pull-left" src="source/image/product/{{$item['item']->image}}" width="80px", height="80px" alt="">
                         <div class="media-body">
                             <p class="font-large table-title">{{$item['item']->name}}</p>
-                            <p class="table-option">Color: Red</p>
-                            <p class="table-option">Size: M</p>
                             <a class="table-edit" href="#">Edit</a>
                         </div>
                     </div>
@@ -51,7 +49,7 @@
                     <button type="submit" class="beta-btn primary" name="apply_coupon">Apply Coupon <i class="fa fa-chevron-right"></i></button>
                 </div>
                 <button type="submit" class="beta-btn primary" name="update_cart"><a onclick="updatecart()" class="update-cart">Update Cart </a></button>
-                <button type="submit" class="beta-btn primary" name="checkout"><a class="checkout">Proceed to Checkout </a></button>
+                <button type="submit" class="beta-btn primary" name="checkout"><a  href="{{route('checkout')}}" class="checkout">Proceed to Checkout </a></button>
             </td>
         </tr>
         </tfoot>

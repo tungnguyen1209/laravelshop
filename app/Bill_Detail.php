@@ -12,7 +12,7 @@ class Bill_Detail extends Model
         return $this->belongsTo('App\Product', 'id_product', 'id');
     }
     public function bill(){
-        return $this->belongsTo('App\Bill', 'id_bill', 'id');
+        return $this->belongsTo('App\Bills', 'id_bill', 'id');
     }
 
 }

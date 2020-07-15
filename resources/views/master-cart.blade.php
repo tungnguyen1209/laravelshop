@@ -78,42 +78,6 @@
                         <button class="fa fa-search" type="submit" id="searchsubmit"></button>
                     </form>
                 </div>
-                <div class="beta-comp">
-                    <div class="cart">
-                        <div class="beta-select"><i class="fa fa-shopping-cart"></i> Cart
-                            @if(Session::has('Cart') != null)
-                                <span id="total-quantity">({{Session::get('Cart')->totalQty}} items)</span>
-                            @else
-                                <span id="total-quantity">( Empty )</span>
-                            @endif
-                            <i class="fa fa-chevron-down"></i></div>
-                        <div class="beta-dropdown cart-body">
-                            <div id="change-cart-item">
-                                @if(Session::has('Cart') != null)
-                                    @foreach(Session::get('Cart')->items as $item)
-                                        <div class="cart-item">
-                                            <a class="cart-item-delete" href="javascript:"><i class="fa fa-times" data-id="{{$item['item']->id}}"></i></a>
-                                            <div class="media">
-                                                <a class="pull-left" href="#"><img src="source/image/product/{{$item['item']->image}}" width="50px", height="50px" alt=""></a>
-                                                <div class="media-body">
-                                                    <span class="cart-item-title">{{$item['item']->name}}</span>
-                                                    <span class="cart-item-options">Size: XS; Colar: Navy</span>
-                                                    <span class="cart-item-amount">{{$item['qty']}}*<span>{{number_format($item['item']->unit_price)}}</span></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    <div class="cart-caption">
-                                        <div class="cart-total text-right">Tổng tiền: <span class="cart-total-value">{{Session::get('Cart')->totalPrice}}đ</span></div>
-                                        <input hidden type="number" value="{{Session::get('Cart')->totalQty}}">
-                                        <div class="clearfix"></div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div> <!-- .cart -->
-                        </div>
-                    </div> <!-- .cart -->
                 </div>
             </div>
             <div class="clearfix"></div>

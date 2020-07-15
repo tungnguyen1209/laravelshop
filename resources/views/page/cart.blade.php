@@ -1,4 +1,4 @@
-@if(Session::has('Cart') != null)
+@if(Session::has('Cart') != null || isset(Session::get('Cart')->totalQty))
     @foreach(Session::get('Cart')->items as $item)
 <div class="cart-item">
     <a class="cart-item-delete" href="javascript:" ><i class="fa fa-times" data-id="{{$item['item']->id}}"></i></a>

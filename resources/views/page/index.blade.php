@@ -39,7 +39,7 @@
                                     <div  class="col-sm-3">
                                         <div class="single-item">
                                             <div class="single-item-header">
-                                                <a href="{{route('product-details',$newproduct->id)}}"><img src="source/image/product//{{$newproduct->image}}" alt="" height="320px" width="270px"></a>
+                                                <a href="{{route('product-details',$newproduct->id)}}"><img src="source/image/product/{{$newproduct->image}}" alt="" height="320px" width="270px"></a>
                                             </div>
                                             <div class="single-item-body">
                                                 <p class="single-item-title">{{$newproduct->name}}</p>

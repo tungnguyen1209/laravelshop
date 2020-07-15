@@ -20,7 +20,7 @@ Route::get('/', [
     'uses'=>'PageController@GetIndex'
 ]);
 Route::get('index', [
-    'as'=>'home',
+    'as'=>'index',
     'uses'=>'PageController@GetIndex'
 ]);
 Route::get('product-type', [
@@ -63,6 +63,32 @@ Route::post('update-all-cart', [
     'as'=>'update-all-cart',
     'uses'=>'PageController@UpdateAllCart'
 ]);
-
-
+Route::get('checkout', [
+    'as'=>'checkout',
+    'uses'=>'PageController@getcheckout'
+]);
+Route::post('checkout', [
+    'as'=>'checkout',
+    'uses'=>'PageController@postcheckout'
+]);
+Route::get('login', [
+    'as'=>'login',
+    'uses'=>'PageController@getlogin'
+]);
+Route::post('login', [
+    'as'=>'login',
+    'uses'=>'PageController@postlogin'
+]);
+Route::get('signup', [
+    'as'=>'signup',
+    'uses'=>'PageController@getsignup'
+]);
+Route::post('signup', [
+    'as'=>'signup',
+    'uses'=>'PageController@postsignup'
+]);
+Route::get('logout', [
+    'as'=>'logout',
+    'uses'=>'PageController@logout'
+]);
 

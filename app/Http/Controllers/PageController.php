@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Slide;
 use App\Product;
+use App\Bills;
+use App\Bill_Detail;
+use App\Customer;
+use App\User;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\Constraint\Count;
+use Auth;
 use Session;
+use Hash;
+use Closure;
 
 class PageController extends Controller
 {
@@ -78,7 +84,89 @@ class PageController extends Controller
             $newcart->updateItem($items['key'], $items['value']);
             $request->session()->put('Cart', $newcart);
         }
-
         return view('page.cart-detail', compact('newcart'));
+    }
+    public function getcheckout(){
+        return view('page.checkout');
+    }
+    public function postcheckout(Request $request){
+        //dd($request->all());
+        $bill = new Bills();
+        $bill_detail = new Bill_Detail();
+        if(Session::has('Cart') != null){
+            //dd(Session('Cart'));
+            $cart = Session('Cart');
+            $bill->total = $cart->totalPrice;
+            $bill->date_order = date('Y-m-d');
+            $bill->Address = $request->address;
+            $bill->Phone = $request->phone;
+            $bill->Name = $request->fullname;
+            $bill->Email = $request->email;
+            $bill->payment = $request->payment_method;
+            $bill->note = $request->notes;
+            $bill->save();
+            foreach ($cart->items as $ct){
+                $bill_detail = new Bill_Detail();
+                $bill_detail->id_bill = $bill->id;
+                $bill_detail->id_product = $ct['item']->id;
+                $bill_detail->quantity = $ct['qty'];
+                $bill_detail->unit_price = $ct['item']->unit_price;
+                $bill_detail->created_at = date("F d, Y h:i:s", time());
+                $bill_detail->name = $ct['item']->name;
+                $bill_detail->image = $ct['item']->image;
+                $bill_detail->save();
+            }
+        }
+        $request->session()->forget('Cart');
+        return view('page.checkout');
+    }
+    public function getlogin(){
+        if(Auth::check()){
+            return redirect()->route('home');
+        }
+        else{
+        return view('page.login');
+        }
+    }
+    public function postlogin(Request $request){
+        $credentials = array('email'=>$request->email, 'password'=>$request->pass);
+        if(Auth::attempt($credentials)){
+            return redirect()->route('home')->with(['flag'=>'success','message'=>'Login successfully']);
+        }
+        else {
+            return redirect()->back()->with(['flag'=>'danger','message'=>'Email or password does not match']);
+        }
+    }
+    public function getsignup(){
+        return view('page.signup');
+    }
+    public function postsignup(Request $request){
+        //dd($request->all());
+        $customer = new User();
+        $slide = Slide::all();
+        $new_product = Product::orderBy('id', 'desc')->paginate(12);
+        $check_mail = User::where('email', $request->email)->first();
+//        dd($check_mail);
+        if($request->pass == $request->re_pass){
+            if($check_mail == null){
+            $customer->full_name = $request->fullname;
+            $customer->email = $request->email;
+            $customer->address = $request->address;
+            $customer->phone = $request->phone;
+            $customer->password = Hash::make($request->pass);
+            $customer->save();
+            return view('page.index', compact('slide', 'new_product'));
+            }
+            else{
+                return view('page.signup')->with('message', 'Email Already Exist!');
+            }
+        }
+        else{
+            return view('page.signup')->with('message', 'Password confirmation does not match!');
+        }
+    }
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('home');
     }
 }

@@ -18,7 +18,7 @@
         <div class="table-responsive">
             <!-- Shop Products Table -->
             <div id="change-cart">
-                @if(Session::has('Cart') != null)
+                @if(Session::has('Cart') != null || isset(Session::get('Cart')->totalQty))
                     <table class="shop_table beta-shopping-cart-table" cellspacing="0">
                         <thead>
                         <tr>
@@ -48,6 +48,7 @@
                                     <span class="amount">{{number_format($item['item']->unit_price)}} đ</span>
                                 </td>
                                 <td class="product-quantity">
+
                                     <input data-id="{{$item['item']->id}}" id="qty-item-{{$item['item']->id}}" style="text-align: center; font-weight: bold; width: 60px;" name="product-qty" type="number" value="{{$item['qty']}}" min="1">
                                 </td>
                                 <td class="product-subtotal">
@@ -71,7 +72,7 @@
                                     <button type="submit" class="beta-btn primary" name="apply_coupon">Apply Coupon <i class="fa fa-chevron-right"></i></button>
                                 </div>
                                 <button type="submit" class="beta-btn primary" name="update_cart"><a onclick="updatecart()" class="update-cart">Update Cart </a></button>
-                                <button type="submit" class="beta-btn primary" name="checkout"><a href="" class="checkout">Proceed to Checkout </a></button>
+                                <button type="submit" class="beta-btn primary" name="checkout"><a href="{{route('checkout')}}" class="checkout">Proceed to Checkout </a></button>
                             </td>
                         </tr>
                         </tfoot>
@@ -99,7 +100,7 @@
                         </form>
                         <div class="cart-totals pull-right">
                             <div class="cart-totals-row"><h5 class="cart-total-title">Cart Totals</h5></div>
-                            <div class="cart-totals-row"><span>Cart Subtotal:</span> <span>{{Session::get('Cart')->totalPrice}}đ</span></div>
+                            <div class="cart-totals-row"><span>Cart Subtotal:</span> <span>{{number_format(Session::get('Cart')->totalPrice)}}đ</span></div>
                             <div class="cart-totals-row"><span>Total Quantity:</span> <span>{{Session::get('Cart')->totalQty}}</span></div>
                             <div class="cart-totals-row"><span>Shipping:</span> <span>{{number_format(30000)}} đ</span></div>
                             <div class="cart-totals-row"><span>Order Total:</span> <span>{{number_format(Session::get('Cart')->totalPrice + 30000)}} đ</span></div>
@@ -120,7 +121,7 @@
             type:'GET',
         }).done(
             function (response) {
-                console.log(response);
+                console.log(id)
                 RenderCart(response);
                 alertify.error('Deleted!');
             });
@@ -133,7 +134,6 @@
             type:'GET',
         }).done(
             function (response) {
-                console.log(response);
                 RenderCart(response);
                 alertify.success('Updated!');
             });
@@ -155,8 +155,8 @@
             }
         }).done(
             function (response) {
+                RenderCart(response);
                 alertify.success('Updated!');
-                Location.reload();
             });
     }
     function RenderCart(response) {

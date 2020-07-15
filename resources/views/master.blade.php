@@ -38,21 +38,25 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
 </head>
 <body>
-
 <div id="header">
     <div class="header-top">
         <div class="container">
             <div class="pull-left auto-width-left">
                 <ul class="top-menu menu-beta l-inline">
-                    <li><a href=""><i class="fa fa-home"></i> 90-92 Lê Thị Riêng, Bến Thành, Quận 1</a></li>
-                    <li><a href=""><i class="fa fa-phone"></i> 0163 296 7751</a></li>
+                    <li><a href=""><i class="fa fa-home"></i>354/137/21/14 Truong Chinh, Dong Da, Ha Noi</a></li>
+                    <li><a href=""><i class="fa fa-phone"></i>0327642297</a></li>
                 </ul>
             </div>
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
-                    <li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li>
-                    <li><a href="#">Đăng kí</a></li>
-                    <li><a href="#">Đăng nhập</a></li>
+                    @if(Auth::check())
+                        <li><a href="#"><i class="fa fa-user"></i>Hello {{Auth::user()->full_name}}</a></li>
+                        <li><a href="{{'signup'}}">Profile</a></li>
+                        <li><a href="{{'logout'}}">Log out</a></li>
+                    @else
+                        <li><a href="{{'signup'}}">Sign up</a></li>
+                        <li><a href="{{'login'}}">Sign in</a></li>
+                    @endif
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -75,8 +79,8 @@
                 <div class="beta-comp">
                     <div class="cart">
                         <div class="beta-select"><i class="fa fa-shopping-cart"></i> Cart
-                            @if(Session::has('Cart') != null)
-                              <span id="total-quantity">({{Session::get('Cart')->totalQty}} items)</span>
+                            @if(Session::has('Cart') != null || isset(Session::get('Cart')->totalQty))
+                              <span id="total-quantity">({{(Session::get('Cart')->totalQty)}} items)</span>
                             @else
                                <span id="total-quantity">( Empty )</span>
                             @endif
@@ -146,7 +150,7 @@
             <div class="col-sm-3">
                 <div class="widget">
                     <h4 class="widget-title">Instagram Feed</h4>
-                    <div id="beta-instagram-feed"><div></div></div>
+
                 </div>
             </div>
             <div class="col-sm-2">

@@ -12,5 +12,24 @@
 */
 
 Route::prefix('admin')->group(function() {
-    Route::get('/', 'AdminController@index');
+    Route::get('/', [
+        'as'=>'home',
+        'uses'=>'AdminController@index'
+    ]);
+    Route::get('index', [
+        'as'=>'index',
+        'uses'=>'AdminController@index'
+    ]);
+    Route::get('login', [
+        'as'=>'login',
+        'uses'=>'AdminController@getlogin'
+    ]);
+    Route::post('login', [
+        'as'=>'login',
+        'uses'=>'AdminController@postlogin'
+    ]);
+    Route::get('logout', [
+        'as'=>'logout',
+        'uses'=>'AdminController@logout'
+    ]);
 });
