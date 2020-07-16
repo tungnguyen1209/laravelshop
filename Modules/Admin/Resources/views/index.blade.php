@@ -58,7 +58,7 @@
                                                 <td>
                                                     <div class="media">
                                                         <div class="media-image mr-3 rounded-circle">
-                                                            <a href="profile.html"><img class="rounded-circle w-45" src="source/assets_admin/img/user/{{$newcus->avatar}}" alt="customer image"></a>
+                                                            <a href="profile.html"><img class="rounded-circle w-45" src="uploads/avatar.jpg" alt="customer image"></a>
                                                         </div>
                                                         <div class="media-body align-self-center">
                                                             <a href="profile.html"><h6 class="mt-0 text-dark font-weight-medium">{{$newcus->full_name}}</h6></a>

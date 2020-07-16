@@ -15,11 +15,11 @@ Route::prefix('admin')->group(function() {
     Route::get('index', [
         'as'=>'index',
         'uses'=>'AdminController@index'
-    ]);
+    ])->middleware('CheckLoginAdmin');
     Route::get('/', [
         'as'=>'index',
         'uses'=>'AdminController@index'
-    ]);
+    ])->middleware('CheckLoginAdmin');
     Route::get('login', [
         'as'=>'login',
         'uses'=>'AdminController@getlogin'

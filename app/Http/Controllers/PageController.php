@@ -155,6 +155,7 @@ class PageController extends Controller
             $customer->address = $request->address;
             $customer->phone = $request->phone;
             $customer->password = Hash::make($request->pass);
+            $customer->avatar = 'avatar.jpg';
             $customer->user_group = 1;
             $customer->order_count = 0;
             $customer->save();

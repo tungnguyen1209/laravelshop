@@ -346,11 +346,11 @@
                             </ul>
                         </li>
                         <!-- User Account -->
-                    @if(Auth::guard('customers')->check())
+                    @if(Auth::guard('admins')->check())
                         <li class="dropdown user-menu">
                             <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                                 <img src="source/assets_admin/img/user/u1.jpg" class="user-image" alt="User Image" />
-                                <span class="d-none d-lg-inline-block"> {{Auth::guard('customers')->user()->name}}</span>
+                                <span class="d-none d-lg-inline-block"> {{Auth::guard('admins')->user()->name}}</span>
                             </button>
 
                             <ul class="dropdown-menu dropdown-menu-right">
@@ -358,7 +358,7 @@
                                 <li class="dropdown-header">
                                     <img src="source/assets_admin/img/user/u1.jpg" class="img-circle" alt="User Image" />
                                     <div class="d-inline-block">
-                                        {{Auth::guard('customers')->user()->name}} <small class="pt-1">{{Auth::guard('customers')->user()->email}}</small>
+                                        {{Auth::guard('admins')->user()->name}} <small class="pt-1">{{Auth::guard('admins')->user()->email}}</small>
                                     </div>
                                 </li>
                                 <li>

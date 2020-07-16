@@ -32,7 +32,7 @@
                         <li><a href="{{'logout'}}">Log out</a></li>
                     @else
                         <li><a href="{{'signup'}}">Sign up</a></li>
-                        <li><a href="{{'login'}}">Sign in</a></li>
+                        <li><a href="{{'login_customer'}}">Sign in</a></li>
                     @endif
                 </ul>
             </div>

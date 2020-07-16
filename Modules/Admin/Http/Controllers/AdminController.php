@@ -19,16 +19,10 @@ class AdminController extends Controller
 {
     public function index()
     {
-        if(Auth::check())
-        {
         $bill = Bills::orderby('id', 'desc')->paginate(5);
         $new_cus = User::orderby('id', 'desc')->paginate(5);
         $new_pro = Product::orderby('id', 'desc')->paginate(3);
         return view('admin::index', compact('bill', 'new_cus', 'new_pro'));
-        }
-        else{
-            return redirect()->route('login');
-        }
     }
     public function getlogin()
     {
@@ -54,7 +48,7 @@ class AdminController extends Controller
     }
     public function getproduct()
     {
-        if(Auth::check())
+        if(Auth::guard('admins')->check())
         {
         $product = Product::with('type_products:id,name')->paginate(10);
         return view('admin::product', compact('product'));
@@ -65,7 +59,7 @@ class AdminController extends Controller
     }
     public function productdetail(Request $request)
     {
-        if(Auth::check())
+        if(Auth::guard('admins')->check())
         {
         $cat = Product::with('type_products:id,name')->where('id', $request->id)->first();
         $category = ProductType::all();
@@ -78,7 +72,7 @@ class AdminController extends Controller
         }
     }
     public function add_product(){
-        if(Auth::check()){
+        if(Auth::guard('admins')->check()){
         $category = ProductType::all();
         return view('admin::add_product', compact('category'));
         }
@@ -87,7 +81,7 @@ class AdminController extends Controller
         }
     }
     public function post_add_product(Request $request){
-        if(Auth::check()){
+        if(Auth::guard('admins')->check()){
             //dd($request->all());
             $product = new Product();
             $product->name = $request->pro_name;
@@ -119,7 +113,7 @@ class AdminController extends Controller
         }
     }
     public function post_update_product(Request $request, $id){
-        if(Auth::check()){
+        if(Auth::guard('admins')->check()){
             $product = Product::find($id);
             $product->name = $request->pro_name;
             $product->id_type = $request->pro_category_id;
@@ -150,7 +144,7 @@ class AdminController extends Controller
         }
     }
     public function getorder(){
-        if(Auth::check())
+        if(Auth::guard('admins')->check())
         {
         $bill = Bills::all();
         return view('admin::order', compact('bill'));
@@ -160,7 +154,7 @@ class AdminController extends Controller
         }
     }
     public function order_detail(Request $request){
-        if(Auth::check())
+        if(Auth::guard('admins')->check())
         {
         //dd($request->id);
         $bill_detail = Bill_Detail::where('id_bill', $request->id)->get();
