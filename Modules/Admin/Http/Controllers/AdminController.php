@@ -2,9 +2,9 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use App\Customer;
 use App\Product;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Bill_Detail;
 use App\Bills;
@@ -37,16 +37,10 @@ class AdminController extends Controller
     public function postlogin(Request $request)
     {
         //dd($request->all());
-        $check_admin = User::where('email', $request->email)->first();
-
+//        $check_admin = Customer::where('email', $request->email)->first();
         $credentials = array('email'=>$request->email, 'password'=>$request->password);
-        if(Auth::attempt($credentials)){
-            if($check_admin->user_group == 0){
-                return redirect()->route('index')->with(['flag'=>'success','message'=>'Login successfully']);
-            }
-            else{
-                return redirect()->back()->with(['flag'=>'danger','message'=>'Email or password does not match']);
-            }
+        if(Auth::guard('customers')->attempt($credentials)){
+            return redirect()->route('index')->with(['flag'=>'success','message'=>'Login successfully']);
         }
         else {
             return redirect()->back()->with(['flag'=>'danger','message'=>'Email or password does not match']);
@@ -183,5 +177,9 @@ class AdminController extends Controller
         $bill->status = $request->bill_status;
         $bill->save();
         return redirect()->back();
+    }
+    public function get_customer(){
+        $customer = User::where('user_group', '=', 1)->get();
+        return view('admin::customer', compact('customer'));
     }
 }

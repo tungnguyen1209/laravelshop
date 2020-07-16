@@ -129,7 +129,7 @@
                              data-parent="#sidebar-menu">
                             <div class="sub-menu">
                                 <li >
-                                    <a class="sidenav-item-link" href="user-profile.html">
+                                    <a class="sidenav-item-link" href="{{route('customer')}}">
                                         <span class="nav-text">All Customers</span>
                                     </a>
                                 </li>

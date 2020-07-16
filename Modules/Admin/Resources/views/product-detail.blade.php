@@ -36,11 +36,11 @@
                             </select>
                             <label class="text-dark mt-4 font-weight-medium" for="">Unit Price</label>
                             <div class="input-group mb-2">
-                                <input type="text" name="pro_unit_price" class="form-control" value="{{number_format($product->unit_price)}}">
+                                <input type="text" name="pro_unit_price" class="form-control" value="{{$product->unit_price}}">
                             </div>
                             <label class="text-dark mt-4 font-weight-medium" for="">Promotion Price</label>
                             <div class="input-group mb-2">
-                                <input type="text" name="pro_promotion_price" class="form-control" value="{{number_format($product->promotion_price)}}">
+                                <input type="text" name="pro_promotion_price" class="form-control" value="{{$product->promotion_price}}">
                             </div>
                             <label class="text-dark mt-4 font-weight-medium" for="">Description</label>
                             <div class="input-group mb-2">

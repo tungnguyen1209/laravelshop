@@ -87,8 +87,8 @@ Route::post('signup', [
     'as'=>'signup',
     'uses'=>'PageController@postsignup'
 ]);
-Route::get('logout', [
-    'as'=>'logout',
-    'uses'=>'PageController@logout'
+Route::get('signout', [
+    'as'=>'signout',
+    'uses'=>'PageController@signout'
 ]);
 

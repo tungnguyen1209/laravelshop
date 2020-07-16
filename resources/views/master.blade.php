@@ -52,7 +52,7 @@
                     @if(Auth::check())
                         <li><a href="#"><i class="fa fa-user"></i>Hello {{Auth::user()->full_name}}</a></li>
                         <li><a href="{{'signup'}}">Profile</a></li>
-                        <li><a href="{{'logout'}}">Log out</a></li>
+                        <li><a href="{{'signout'}}">Log out</a></li>
                     @else
                         <li><a href="{{'signup'}}">Sign up</a></li>
                         <li><a href="{{'login'}}">Sign in</a></li>

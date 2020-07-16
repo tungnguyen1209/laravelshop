@@ -64,4 +64,10 @@ Route::prefix('admin')->group(function() {
         'as'=>'order_detail',
         'uses'=>'AdminController@order_update'
     ]);
+    Route::get('customer', [
+        'as'=>'customer',
+        'uses'=>'AdminController@get_customer'
+    ]);
 });
+
+

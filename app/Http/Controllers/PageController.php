@@ -123,7 +123,7 @@ class PageController extends Controller
     }
     public function getlogin(){
         if(Auth::check()){
-            return redirect()->route('home');
+            return redirect('index');
         }
         else{
         return view('page.login');
@@ -132,7 +132,7 @@ class PageController extends Controller
     public function postlogin(Request $request){
         $credentials = array('email'=>$request->email, 'password'=>$request->pass);
         if(Auth::attempt($credentials)){
-            return redirect()->route('home')->with(['flag'=>'success','message'=>'Login successfully']);
+            return redirect('index');
         }
         else {
             return redirect()->back()->with(['flag'=>'danger','message'=>'Email or password does not match']);
@@ -155,6 +155,8 @@ class PageController extends Controller
             $customer->address = $request->address;
             $customer->phone = $request->phone;
             $customer->password = Hash::make($request->pass);
+            $customer->user_group = 1;
+            $customer->order_count = 0;
             $customer->save();
             return view('page.index', compact('slide', 'new_product'));
             }
@@ -166,8 +168,8 @@ class PageController extends Controller
             return view('page.signup')->with('message', 'Password confirmation does not match!');
         }
     }
-    public function logout(){
+    public function signout(){
         Auth::logout();
-        return redirect()->route('home');
+        return redirect('index');
     }
 }
