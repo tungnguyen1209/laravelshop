@@ -5,12 +5,11 @@
         <h2>All Products</h2>
     </div>
     <div class="card-body">
-
         <div class="text-right mb-3">
             <a href="{{route('add_product')}}"><button class="btn btn-success">Add Product</button></a>
         </div>
         <br>
-        <table class="table table-bordered">
+        <table class="table table-bordered text-center">
             <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -20,6 +19,7 @@
                 <th scope="col">Unit Price</th>
                 <th scope="col">Promotion Price</th>
                 <th scope="col">Quantity</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -29,11 +29,12 @@
                         <tr href="{{route('index')}}">
                             <td scope="row">{{$pro->id}}</td>
                             <td>{{$pro->name}}</td>
-                            <td>{{$pro->id_type}}</td>
+                            <td>{{$pro->type_products->name}}</td>
                             <td>{{$pro->description}}</td>
                             <td>{{number_format($pro->unit_price)}}</td>
                             <td>{{number_format($pro->promotion_price)}}</td>
                             <td>{{$pro->quantity}}</td>
+                            <td><span class="badge badge-{{$pro->getstatus($pro->status)['class']}}">{{$pro->getstatus($pro->status)['name']}}</span></td>
                             <td><a href="{{route('product-detail',$pro->id)}}">Edit</a> || <a href="#">Delete</a></td>
                         </tr>
                 @endforeach

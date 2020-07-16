@@ -44,4 +44,24 @@ Route::prefix('admin')->group(function() {
         'as'=>'add_product',
         'uses'=>'AdminController@add_product'
     ]);
+    Route::post('add_product', [
+        'as'=>'add_product',
+        'uses'=>'AdminController@post_add_product'
+    ]);
+    Route::post('product-detail/{id}', [
+        'as'=>'product-detail',
+        'uses'=>'AdminController@post_update_product'
+    ]);
+    Route::get('order', [
+        'as'=>'order',
+        'uses'=>'AdminController@getorder'
+    ]);
+    Route::get('order_detail/{id}', [
+        'as'=>'order_detail',
+        'uses'=>'AdminController@order_detail'
+    ]);
+    Route::post('order_detail/{id}', [
+        'as'=>'order_detail',
+        'uses'=>'AdminController@order_update'
+    ]);
 });

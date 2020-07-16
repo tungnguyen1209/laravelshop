@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Str;
+
 if (!function_exists('upload_image'))// trả về giá trị TRUE nếu hàm đã tồn tại và ngược lại FALSE nếu chưa tồn tại. -> neu ham ko ton tai moi thuc hien upload_image
 {
     /**
@@ -61,14 +63,14 @@ if (!function_exists('upload_image'))// trả về giá trị TRUE nếu hàm đ
 // trim() sẽ loại bỏ khoẳng trắng( hoặc bất kì kí tự nào được cung cấp) dư thừa ở đầu và cuối chuỗi.
 // str_replace($search, $replace, $subject) ; Hàm str_replace() sẽ thay thế tất cả các ký tự $search nằm trong $subject bằng ký tự $replace.
 // ham nay co nghia la bo duoi mo rong de lay ten file
-        $filename = date('Y-m-d__').str_slug($nameFile) . '.' . $ext;
+        $filename = date('Y-m-d__').Str::slug($nameFile) . '.' . $ext;
 //filename co dang nam-thang-ngay_ten-cua-file-anh.duoimorong
 // thu muc goc de upload
-        $path = public_path().'/uploads/'.date('Y/m/d/');
+        $path = public_path().'/uploads/';
 //laravel56/uploads/nam/thang/ngay
         if ($folder)
         {
-            $path = public_path().'/uploads/'.$folder.'/'.date('Y/m/d/');
+            $path = public_path().'/uploads/'.$folder.'/';
         }
 //laravel56/uploads/folder/nam/thang/ngay
         if ( !\File::exists($path))
@@ -96,11 +98,8 @@ if (!function_exists('pare_url_file')) {
         {
             return'/images/no-image.jpg';
         }
-        $explode = explode('__', $image);
-        if (isset($explode[0])) {
-            $time = str_replace('_', '/', $explode[0]);
-            return '/uploads/'.$folder.'/' . date('Y/m/d', strtotime($time)) . '/' . $image;
-        }
+            return '/uploads/'.$folder.'/' . $image;
+
     }
 }
 //Hàm explode() trong php có nhiệm vụ chuyển một chuỗi thành một mảng và mỗi phần tử được cắt bởi một chuỗi con nào đó

@@ -103,6 +103,7 @@ class PageController extends Controller
             $bill->Name = $request->fullname;
             $bill->Email = $request->email;
             $bill->payment = $request->payment_method;
+            $bill->status = 0;
             $bill->note = $request->notes;
             $bill->save();
             foreach ($cart->items as $ct){

@@ -112,7 +112,7 @@
                              data-parent="#sidebar-menu">
                             <div class="sub-menu">
                                 <li >
-                                    <a class="sidenav-item-link" href="chartjs.html">
+                                    <a class="sidenav-item-link" href="{{route('order')}}">
                                         <span class="nav-text">Orders</span>
                                     </a>
                                 </li>
