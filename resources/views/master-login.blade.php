@@ -26,8 +26,8 @@
             </div>
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
-                    @if(Auth::check())
-                        <li><a href="#"><i class="fa fa-user"></i>Hello {{Auth::user()->full_name}}</a></li>
+                    @if(Auth::guard('web')->check())
+                        <li><a href="#"><i class="fa fa-user"></i>Hello {{Auth::guard('web')->user()->full_name}}</a></li>
                         <li><a href="{{'signup'}}">Profile</a></li>
                         <li><a href="{{'logout'}}">Log out</a></li>
                     @else

@@ -71,12 +71,12 @@ Route::post('checkout', [
     'as'=>'checkout',
     'uses'=>'PageController@postcheckout'
 ]);
-Route::get('login', [
+Route::get('login_customer', [
     'as'=>'login',
-    'uses'=>'PageController@getlogin'
+    'uses'=>'PageController@getlogin_customer'
 ]);
-Route::post('login', [
-    'as'=>'login',
+Route::post('login_customer', [
+    'as'=>'login_customer',
     'uses'=>'PageController@postlogin'
 ]);
 Route::get('signup', [
@@ -92,3 +92,7 @@ Route::get('signout', [
     'uses'=>'PageController@signout'
 ]);
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

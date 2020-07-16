@@ -7,13 +7,13 @@ use App\Slide;
 use App\Product;
 use App\Bills;
 use App\Bill_Detail;
-use App\Customer;
+use App\AdminUser;
 use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
 use Hash;
-use Closure;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends Controller
 {
@@ -121,17 +121,19 @@ class PageController extends Controller
         $request->session()->forget('Cart');
         return view('page.checkout');
     }
-    public function getlogin(){
+
+    public function getlogin_customer()
+    {
         if(Auth::check()){
-            return redirect('index');
-        }
-        else{
+            return redirect('/');
+        }else{
         return view('page.login');
         }
     }
     public function postlogin(Request $request){
         $credentials = array('email'=>$request->email, 'password'=>$request->pass);
-        if(Auth::attempt($credentials)){
+        if(Auth::guard('web')->attempt($credentials)){
+            //dd(Auth::guard('web')->user()->id);
             return redirect('index');
         }
         else {
@@ -144,8 +146,6 @@ class PageController extends Controller
     public function postsignup(Request $request){
         //dd($request->all());
         $customer = new User();
-        $slide = Slide::all();
-        $new_product = Product::orderBy('id', 'desc')->paginate(12);
         $check_mail = User::where('email', $request->email)->first();
 //        dd($check_mail);
         if($request->pass == $request->re_pass){
@@ -158,7 +158,7 @@ class PageController extends Controller
             $customer->user_group = 1;
             $customer->order_count = 0;
             $customer->save();
-            return view('page.index', compact('slide', 'new_product'));
+            return redirect('/');
             }
             else{
                 return view('page.signup')->with('message', 'Email Already Exist!');
@@ -169,7 +169,7 @@ class PageController extends Controller
         }
     }
     public function signout(){
-        Auth::logout();
+        Auth::guard('web')->logout();
         return redirect('index');
     }
 }

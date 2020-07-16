@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Hash;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -11,6 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        $data = [
+            [
+                'email' => 'duytungnguyen.bkhn.95@gmail.com',
+                'password' => Hash::make('12345'),
+                'name'=>'Nguyễn Duy Tùng',
+            ]
+
+        ];
+        DB::table('adminusers')->insert($data);
     }
 }

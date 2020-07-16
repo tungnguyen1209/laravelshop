@@ -30,17 +30,17 @@ class AdminController extends Controller
             return redirect()->route('login');
         }
     }
-    public function getlogin(Request $request)
+    public function getlogin()
     {
         return view('admin::login');
     }
     public function postlogin(Request $request)
     {
         //dd($request->all());
-//        $check_admin = Customer::where('email', $request->email)->first();
         $credentials = array('email'=>$request->email, 'password'=>$request->password);
-        if(Auth::guard('customers')->attempt($credentials)){
-            return redirect()->route('index')->with(['flag'=>'success','message'=>'Login successfully']);
+        if(Auth::guard('admins')->attempt($credentials)){
+              //dd(Auth::guard('customers')->user()->phone_number);
+              return redirect('admin/index')->with(['flag'=>'success','message'=>'Login successfully']);
         }
         else {
             return redirect()->back()->with(['flag'=>'danger','message'=>'Email or password does not match']);
@@ -49,8 +49,8 @@ class AdminController extends Controller
     }
     public function logout()
     {
-        Auth::logout();
-        return redirect()->route('login');
+        Auth::guard('admins')->logout();
+        return redirect('admin/login');
     }
     public function getproduct()
     {
