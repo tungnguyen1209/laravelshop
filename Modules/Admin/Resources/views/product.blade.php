@@ -5,10 +5,39 @@
         <h2>All Products</h2>
     </div>
     <div class="card-body">
-        <div class="text-right mb-3">
-            <a href="{{route('add_product')}}"><button class="btn btn-success">Add Product</button></a>
+        <div class="row mb-2">
+            <div class="col-sm-3">
+                    <form role="search" method="get" id="searchform" action="{{route('product_search')}}">
+                        <input class="" type="text" value=""  name="search" id="search" placeholder="Type Keyword..." />
+                        <button class="btn btn-outline-success"  type="submit" id="searchsubmit">Search</button>
+                    </form>
+            </div>
+            <div class="col-sm-3">
+                <form action="" id="form_cat" method="get">
+                    <select class="form-control pro_status" name="pro_status">
+                        <option {{Request::get('pro_status') == 0 ? 'selected': ''}} value="0">All</option>
+                        <option {{Request::get('pro_status') == 1 ? 'selected': ''}} value="1">Public</option>
+                        <option {{Request::get('pro_status') == 2 ? 'selected': ''}} value="2">Private</option>
+                    </select>
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <form action="" method="get" id="form_price">
+                    <select name="price" class="form-control price">
+                        <option {{Request::get('price') == 0 ? 'selected': ''}} value="0">All</option>
+                        <option {{Request::get('price') == 1 ? 'selected': ''}} value="1">< 100,000 đ</option>
+                        <option {{Request::get('price') == 2 ? 'selected': ''}} value="2">100,000 - 200,000 đ</option>
+                        <option {{Request::get('price') == 3 ? 'selected': ''}} value="3">200,000 - 300,000 đ</option>
+                        <option {{Request::get('price') == 4 ? 'selected': ''}} value="4">> 300,000 đ</option>
+                    </select>
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <div class="text-right">
+                    <a href="{{route('add_product')}}"><button class="btn btn-success">Add Product</button></a>
+                </div>
+            </div>
         </div>
-        <br>
         <table class="table table-bordered text-center">
             <thead>
             <tr>
@@ -41,15 +70,30 @@
             @endif
             </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="admin/product?page=1">1</a></li>
-                <li class="page-item"><a class="page-link" href="admin/product?page=2">2</a></li>
-                <li class="page-item"><a class="page-link" href="admin/product?page=3">3</a></li>
-                <li class="page-item"><a class="page-link" href="">Next</a></li>
-            </ul>
-        </nav>
+        <div class="row">
+            <div class="text-center">
+                {{$product->links()}}
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    function addUrlParameter(name, value) {
+        var searchParams = new URLSearchParams(window.location.search)
+        searchParams.set(name, value)
+        window.location.search = searchParams.toString()
+    }
+    jQuery(function () {
+        jQuery(".price").change(function () {
+            const selectedprice = jQuery(this).children("option:selected").val();
+            addUrlParameter('price', selectedprice);
+        });
+    });
+    jQuery(function () {
+        jQuery(".pro_status").change(function () {
+            const selectedstatus = jQuery(this).children("option:selected").val();
+            addUrlParameter('pro_status', selectedstatus);
+        });
+    });
+</script>
 @endsection

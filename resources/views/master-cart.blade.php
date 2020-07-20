@@ -89,7 +89,7 @@
             <div class="visible-xs clearfix"></div>
             <nav class="main-menu">
                 <ul class="l-inline ov">
-                    <li><a style="color: #d81717;" href="index.html">Home</a >
+                    <li><a style="color: #d81717;" href="index">Home</a >
                         <ul class="sub-menu">
                             <li><a href="home_10.html">Home Portfolio</a></li>
                             <li><a href="home_4.html">Company Intro 1</a></li>

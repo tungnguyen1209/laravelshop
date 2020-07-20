@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use http\Env\Request;
 use Illuminate\Support\ServiceProvider;
 use App\ProductType;
 use MongoDB\Driver\Session;

@@ -68,7 +68,14 @@ Route::prefix('admin')->group(function() {
         'as'=>'customer',
         'uses'=>'AdminController@get_customer'
     ])->middleware('CheckLoginAdmin');
-
+    Route::get('product_search', [
+        'as'=>'product_search',
+        'uses'=>'AdminController@product_search'
+    ])->middleware('CheckLoginAdmin');
+    Route::get('product_type/{id}', [
+        'as'=>'product_type',
+        'uses'=>'AdminController@product_type'
+    ])->middleware('CheckLoginAdmin');
 });
 
 

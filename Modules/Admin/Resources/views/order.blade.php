@@ -36,6 +36,7 @@
                             @endif
                             </tbody>
                         </table>
+                        {{$bill->links()}}
                     </div>
                 </div>
             </div>

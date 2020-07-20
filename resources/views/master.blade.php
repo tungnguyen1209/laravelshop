@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
-
     <!--
         RTL version
     -->
@@ -70,12 +69,11 @@
             <div class="pull-right beta-components space-left ov">
                 <div class="space10">&nbsp;</div>
                 <div class="beta-comp">
-                    <form role="search" method="get" id="searchform" action="/">
-                        <input type="text" value="" name="s" id="s" placeholder="Nhập từ khóa..." />
+                    <form role="search" method="get" id="searchform" action="{{route('product-search')}}">
+                        <input class="search" type="text" value=""  name="search" id="search" placeholder="Type Keyword..." />
                         <button class="fa fa-search" type="submit" id="searchsubmit"></button>
                     </form>
                 </div>
-
                 <div class="beta-comp">
                     <div class="cart">
                         <div class="beta-select"><i class="fa fa-shopping-cart"></i> Cart
@@ -95,14 +93,13 @@
                                         <a class="pull-left" href="#"><img src="source/image/product/{{$item['item']->image}}" width="50px", height="50px" alt=""></a>
                                         <div class="media-body">
                                             <span class="cart-item-title">{{$item['item']->name}}</span>
-                                            <span class="cart-item-options">Size: XS; Colar: Navy</span>
                                             <span class="cart-item-amount">{{$item['qty']}}*<span>{{number_format($item['item']->unit_price)}}</span></span>
                                         </div>
                                     </div>
                                 </div>
                                 @endforeach
                                 <div class="cart-caption">
-                                    <div class="cart-total text-right">Tổng tiền: <span class="cart-total-value">{{Session::get('Cart')->totalPrice}}đ</span></div>
+                                    <div class="cart-total text-right">Subtotal: <span class="cart-total-value">{{Session::get('Cart')->totalPrice}}đ</span></div>
                                     <input hidden type="number" value="{{Session::get('Cart')->totalQty}}">
                                     <div class="clearfix"></div>
                                 </div>
@@ -110,7 +107,7 @@
                             </div>
                             <div class="center">
                                 <div class="space10">&nbsp;</div>
-                                <a href="{{url('list-cart')}}" class="beta-btn primary text-center">Đặt hàng <i class="fa fa-chevron-right"></i></a>
+                                <a href="{{url('list-cart')}}" class="beta-btn primary text-center">View Cart <i class="fa fa-chevron-right"></i></a>
                             </div>
                         </div>
                     </div> <!-- .cart -->
@@ -125,16 +122,16 @@
             <div class="visible-xs clearfix"></div>
             <nav class="main-menu">
                 <ul class="l-inline ov">
-                    <li><a href="{{route('home')}}">Trang chủ</a></li>
+                    <li><a href="index">Home</a></li>
                     <li><a href="#">Product Type</a>
                         <ul class="sub-menu">
                             @foreach($product_type as $pro_type)
-                            <li><a href="{{route('product-type',$pro_type->id)}}">{{$pro_type->name}}</a></li>
+                            <li><a href="product-type/{{$pro_type->id}}">{{$pro_type->name}}</a></li>
                             @endforeach
                         </ul>
                     </li>
-                    <li><a href="about.html">Giới thiệu</a></li>
-                    <li><a href="contacts.html">Liên hệ</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="contact">Contact</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </nav>
@@ -231,6 +228,7 @@
 <script src="source/assets/dest/js/owl.carousel.min.js"></script>
 <script src="source/assets/dest/js/main.js"></script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 <!--customjs-->
 <script src="source/assets/dest/js/custom2.js"></script>
 <script>
@@ -242,7 +240,41 @@
                 $(".header-bottom").removeClass('fixNav')
             }}
         )
-    })
+    });
+    const engine1 = new Bloodhound({
+        remote: {
+            url: 'search/name?search=%QUERY%',
+            wildcard: '%QUERY%'
+        },
+        datumTokenizer: Bloodhound.tokenizers.whitespace('search'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace
+    });
+    $(".search").typeahead({
+        hint: false,
+        highlight: false,
+        minLength: 2
+    },
+        [
+            {
+                source: engine1.ttAdapter(),
+                name: 'products-name',
+                display: function(data) {
+                    return data.name;
+                },
+                templates: {
+                    empty: [
+                        '<div class="list-group search-results-dropdown"><div class="list-group-item">No product found.</div></div>'
+                    ],
+                    header: [
+                        '<div class="list-group search-results-dropdown"></div>'
+                    ],
+                    suggestion: function (data) {
+                        return '<a href="product-details/' + data.id + '" class="list-group-item">' + data.name + '</a>';
+                    }
+                }
+            }
+        ]
+    );
 </script>
 </body>
 </html>

@@ -6,6 +6,7 @@
     <base href="{{asset('')}}">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sleek - Admin Dashboard Template</title>
+    <script src="source/assets_admin/plugins/jquery/jquery.min.js"></script>
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet"/>
     <link href="https://cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css" rel="stylesheet" />
@@ -26,6 +27,7 @@
     -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
+
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -409,8 +411,8 @@
         </footer>
     </div>
 </div>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script>
-<script src="source/assets_admin/plugins/jquery/jquery.min.js"></script>
 <script src="source/assets_admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="source/assets_admin/plugins/toaster/toastr.min.js"></script>
 <script src="source/assets_admin/plugins/slimscrollbar/jquery.slimscroll.min.js"></script>

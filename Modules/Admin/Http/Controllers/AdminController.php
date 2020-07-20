@@ -14,17 +14,18 @@ use Auth;
 use Session;
 use Hash;
 use Helpers;
+use Illuminate\Support\Facades\URL;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $bill = Bills::orderby('id', 'desc')->paginate(5);
+        $bill = Bills::orderby('date_order', 'desc')->paginate(5);
         $new_cus = User::orderby('id', 'desc')->paginate(5);
         $new_pro = Product::orderby('id', 'desc')->paginate(3);
         return view('admin::index', compact('bill', 'new_cus', 'new_pro'));
     }
-    public function getlogin()
+    public function paginatel10ogin()
     {
         return view('admin::login');
     }
@@ -46,14 +47,123 @@ class AdminController extends Controller
         Auth::guard('admins')->logout();
         return redirect('admin/login');
     }
-    public function getproduct()
+    public function getproduct(Request $request)
     {
         if(Auth::guard('admins')->check())
         {
-        $product = Product::with('type_products:id,name')->paginate(10);
-        return view('admin::product', compact('product'));
+        $category = ProductType::all();
+        $price = $request->price;
+        $pro_status = $request->pro_status;
+            if(isset($pro_status))
+            {
+                if(isset($price))
+                {
+                    if($pro_status == 0)
+                    {
+                        if($price == 1)
+                        {
+                            $product = Product::whereBetween('unit_price', [0, 100000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 2)
+                        {
+                            $product = Product::whereBetween('unit_price', [100000, 200000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 3)
+                        {
+                            $product = Product::whereBetween('unit_price', [200000, 300000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 4)
+                        {
+                            $product = Product::where('unit_price','>', 300000)->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                    }
+                    else if($pro_status == 1)
+                    {
+                        if($price == 1)
+                        {
+                            $product = Product::where('status', 1)->whereBetween('unit_price', [0, 100000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 2)
+                        {
+                            $product = Product::where('status', 1)->whereBetween('unit_price', [100000, 200000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 3)
+                        {
+                            $product = Product::where('status', 1)->whereBetween('unit_price', [200000, 300000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 4)
+                        {
+                            $product = Product::where('status', 1)->where('unit_price','>', 300000)->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                    }
+                    else if($pro_status == 2)
+                    {
+                        if($price == 1)
+                        {
+                            $product = Product::where('status', 0)->whereBetween('unit_price', [0, 100000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 2)
+                        {
+                            $product = Product::where('status', 0)->whereBetween('unit_price', [100000, 200000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 3)
+                        {
+                            $product = Product::where('status', 0)->whereBetween('unit_price', [200000, 300000])->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                        else if($price == 4)
+                        {
+                            $product = Product::where('status', 0)->where('unit_price','>', 300000)->paginate(10);
+                            return view('admin::product_search', compact('product'));
+                        }
+                    }
+                    return view('admin::product_search', compact('product','category'));
+                }
+                else
+                {
+                    switch ($pro_status)
+                    {
+                        case 0: $product = Product::paginate(10);
+                            break;
+                        case 1: $product = Product::where('status', 1)->paginate(10);
+                            break;
+                        case 2: $product = Product::where('status', 0)->paginate(10);
+                            break;
+                    }
+                    return view('admin::product_search', compact('product','category'));
+                }
+            }
+            else if(isset($price)){
+                switch ($price){
+                    case 1: $product = Product::whereBetween('unit_price', [0, 100000])->paginate(10);
+                        break;
+                    case 2: $product = Product::whereBetween('unit_price', [100000, 200000])->paginate(10);
+                        break;
+                    case 3: $product = Product::whereBetween('unit_price', [200000, 300000])->paginate(10);
+                        break;
+                    case 4: $product = Product::where('unit_price','>', 300000)->paginate(10);
+                        break;
+                }
+                return view('admin::product_search', compact('product','category'));
+            }
+            else
+            {
+                $product = Product::paginate(10);
+                return view('admin::product', compact('product', 'category'));
+            }
         }
-        else{
+        else
+        {
             return redirect()->route('login');
         }
     }
@@ -70,6 +180,10 @@ class AdminController extends Controller
         else{
             return redirect()->route('login');
         }
+    }
+    public function product_type(Request $request){
+        dd($request->pro_category_id);
+        $product = Product::where('id_type', $request->id);
     }
     public function add_product(){
         if(Auth::guard('admins')->check()){
@@ -146,7 +260,7 @@ class AdminController extends Controller
     public function getorder(){
         if(Auth::guard('admins')->check())
         {
-        $bill = Bills::all();
+        $bill = Bills::orderby('id', 'desc')->paginate(5);
         return view('admin::order', compact('bill'));
         }
         else{
@@ -157,7 +271,7 @@ class AdminController extends Controller
         if(Auth::guard('admins')->check())
         {
         //dd($request->id);
-        $bill_detail = Bill_Detail::where('id_bill', $request->id)->get();
+        $bill_detail = Bill_Detail::where('id_bill', $request->id)->paginate(10);
         $bill = Bills::where('id', $request->id)->first();
         //dd($bill_detail);
         return view('admin::order_detail', compact('bill_detail', 'bill'));
@@ -173,7 +287,168 @@ class AdminController extends Controller
         return redirect()->back();
     }
     public function get_customer(){
-        $customer = User::where('user_group', '=', 1)->get();
+        $customer = User::all();
         return view('admin::customer', compact('customer'));
+    }
+    public function product_search(Request $request){
+        $category = ProductType::all();
+        $search = $request->search;
+        $price = $request->price;
+        $pro_status = $request->pro_status;
+        if(isset($pro_status))
+        {
+            if(isset($price))
+            {
+                if($pro_status == 0)
+                {
+                    if($price == 1)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->whereBetween('unit_price', [0, 100000])->paginate(10);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 2)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->whereBetween('unit_price', [100000, 200000])->paginate(10);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 3)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->whereBetween('unit_price', [200000, 300000])->paginate(10);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 4)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('unit_price','>', 300000)->paginate(10);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                }
+                else if($pro_status == 1)
+                {
+                    if($price == 1)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 1)->whereBetween('unit_price', [0, 100000])->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 2)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 1)->whereBetween('unit_price', [100000, 200000])->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 3)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 1)->whereBetween('unit_price', [200000, 300000])->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 4)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 1)->where('unit_price','>', 300000)->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                }
+                else if($pro_status == 2)
+                {
+                    if($price == 1)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 0)->whereBetween('unit_price', [0, 100000])->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 2)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 0)->whereBetween('unit_price', [100000, 200000])->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 3)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 0)->whereBetween('unit_price', [200000, 300000])->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                    else if($price == 4)
+                    {
+                        $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 0)->where('unit_price','>', 300000)->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        $product->appends(['price'=>$price]);
+                        return view('admin::product_search', compact('product'));
+                    }
+                }
+                return view('admin::product_search', compact('product','category'));
+            }
+            else
+            {
+                switch ($pro_status)
+                {
+                    case 0: $product = Product::where('name', 'like', '%'.$search.'%')->paginate(10);
+                        $product->appends(['search' => $search]);
+                    $product->appends(['pro_status'=>$pro_status]);
+                        break;
+                    case 1: $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 1)->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        break;
+                    case 2: $product = Product::where('name', 'like', '%'.$search.'%')->where('status', 0)->paginate(10);
+                        $product->appends(['search' => $search]);
+                        $product->appends(['pro_status'=>$pro_status]);
+                        break;
+                }
+                return view('admin::product_search', compact('product','category'));
+            }
+        }
+        else if(isset($price)){
+            switch ($price){
+                case 1: $product = Product::where('name', 'like', '%'.$search.'%')->whereBetween('unit_price', [0, 100000])->paginate(10);
+                    $product->appends(['search' => $search]);
+                    $product->appends(['price'=>$price]);
+                    break;
+                case 2: $product = Product::where('name', 'like', '%'.$search.'%')->whereBetween('unit_price', [100000, 200000])->paginate(10);
+                    $product->appends(['search' => $search]);
+                    $product->appends(['price'=>$price]);
+                    break;
+                case 3: $product = Product::where('name', 'like', '%'.$search.'%')->whereBetween('unit_price', [200000, 300000])->paginate(10);
+                    $product->appends(['search' => $search]);
+                    $product->appends(['price'=>$price]);
+                    break;
+                case 4: $product = Product::where('name', 'like', '%'.$search.'%')->where('unit_price','>', 300000)->paginate(10);
+                    $product->appends(['search' => $search]);
+                    $product->appends(['price'=>$price]);
+                    break;
+            }
+            return view('admin::product_search', compact('product','category'));
+        }
+        else
+        {
+            $product = Product::where('name', 'like', '%'.$search.'%')->paginate(8);
+            $product->appends(['search' => $search]);
+            $count = Product::where('name', 'like', '%' . $request->search . '%')->paginate(10)->count();
+            return view('admin::product_search', compact('product','category', 'count'));
+        }
     }
 }

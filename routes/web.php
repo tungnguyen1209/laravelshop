@@ -23,7 +23,7 @@ Route::get('index', [
     'as'=>'index',
     'uses'=>'PageController@GetIndex'
 ]);
-Route::get('product-type', [
+Route::get('product-type/{id}', [
     'as'=>'product-type',
     'uses'=>'PageController@ProductType'
 ]);
@@ -91,8 +91,22 @@ Route::get('signout', [
     'as'=>'signout',
     'uses'=>'PageController@signout'
 ]);
-
-
+Route::get('about', [
+    'as'=>'about',
+    'uses'=>'PageController@about'
+]);
+Route::get('contact', [
+    'as'=>'contact',
+    'uses'=>'PageController@contact'
+]);
+Route::get('product-search', [
+    'as'=>'product-search',
+    'uses'=>'PageController@searchbyname'
+]);
+Route::get('search/name', [
+    'as'=>'searchbyproductname',
+    'uses'=>'PageController@searchbyproductname'
+]);
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
