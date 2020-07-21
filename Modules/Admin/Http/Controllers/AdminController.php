@@ -25,7 +25,7 @@ class AdminController extends Controller
         $new_pro = Product::orderby('id', 'desc')->paginate(3);
         return view('admin::index', compact('bill', 'new_cus', 'new_pro'));
     }
-    public function paginatel10ogin()
+    public function getlogin()
     {
         return view('admin::login');
     }
