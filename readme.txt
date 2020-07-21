@@ -1,0 +1,8 @@
+.env
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=
+DB_DATABASE=test
+DB_USERNAME=root
+DB_PASSWORD=
+
