@@ -22,49 +22,52 @@
     </div>
     <!--slider-->
 </div>
-<div class="container">
+<div class="container-fluid">
     <div id="content" class="space-top-none">
         <div class="main-content">
             <div class="space60">&nbsp;</div>
-                <div class="col-sm-12">
-                    <div class="beta-products-list">
-                        <h4>All Products</h4>
-                        <div class="beta-products-details">
-                            <p class="pull-left">{{ $count }} products found</p>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="filter-product">
-                            <div  class="row">
-                                @foreach($new_product as $newproduct)
-                                    <div  class="col-sm-3">
-                                        <div class="single-item">
-                                            <div class="single-item-header">
-                                                <a href="{{route('product-details',$newproduct->id)}}"><img src="source/image/product/{{$newproduct->image}}" alt="" height="320px" width="270px"></a>
-                                            </div>
-                                            <div class="single-item-body">
-                                                <p class="single-item-title">{{$newproduct->name}}</p>
-                                                <p class="single-item-price">
-                                                    <span class="flash-del">{{$newproduct->unit_price}}</span>
-                                                    <span class="flash-sale">{{$newproduct->promotion_price}}</span>
-                                                </p>
-                                            </div>
-                                            <div class="single-item-caption">
-                                                <a class="add-to-cart pull-left" onclick="AddCart({{$newproduct->id}})" href="javascript:void(0)"><i class="fa fa-shopping-cart"></i></a>
-                                                <a class="beta-btn primary" href="{{route('product-details',$newproduct->id)}}">Details <i class="fa fa-chevron-right"></i></a>
-                                                <div class="clearfix"></div>
-                                            </div>
+            <div class="col-sm-2 col-sm-push-1">
+
+            </div>
+            <div class="col-sm-6 col-sm-push-1">
+                <div class="beta-products-list">
+                    <h4>All Products</h4>
+                    <div class="beta-products-details">
+                        <p class="pull-left">{{ $count }} products found</p>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="filter-product">
+                        <div  class="row">
+                            @foreach($new_product as $newproduct)
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="single-item">
+                                        <div class="single-item-header">
+                                            <a href="{{route('product-details',$newproduct->id)}}"><img src="source/image/product/{{$newproduct->image}}" alt="" height="320px" width="270px"></a>
+                                        </div>
+                                        <div class="single-item-body">
+                                            <p style="height: 50px;" class="single-item-title">{{$newproduct->name}}</p>
+                                            <p class="single-item-price">
+                                                <span class="flash-del">{{$newproduct->unit_price}}</span>
+                                                <span class="flash-sale">{{$newproduct->promotion_price}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="single-item-caption">
+                                            <a class="add-to-cart pull-left" onclick="AddCart({{$newproduct->id}})" href="javascript:void(0)"><i class="fa fa-shopping-cart"></i></a>
+                                            <a class="beta-btn primary" href="{{route('product-details',$newproduct->id)}}">Details <i class="fa fa-chevron-right"></i></a>
+                                            <div class="clearfix"></div>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="text-center">
-                                {{$new_product->links()}}
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
-                    </div> <!-- .beta-products-list -->
-                    <div class="space60">&nbsp;</div>
-                </div>
-            </div> <!-- end section with sidebar and main content -->
+                        <div class="text-center">
+                            {{$new_product->links()}}
+                        </div>
+                    </div>
+                </div> <!-- .beta-products-list -->
+                <div class="space60">&nbsp;</div>
+            </div>
+        </div> <!-- end section with sidebar and main content -->
         </div> <!-- .main-content -->
     </div> <!-- #content -->
     <script>
@@ -74,9 +77,18 @@
                 type:'GET',
             }).done(
                 function (response) {
-                console.log(response);
-                    RenderCart(response)
-                    alertify.success('Added!');
+                    swal({
+                        title: "Add Successfully!",
+                        icon: "success",
+                        showCancelButton: true,
+                        cancelButtonText: "Continue",
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "View Cart",
+                        closeOnConfirm: false
+                    }, function() {
+                        window.location.href = "{{url('list-cart')}}";
+                    });
+                    RenderCart(response);
             });
         }
         jQuery("#change-cart-item").on("click", ".cart-item-delete i", function () {

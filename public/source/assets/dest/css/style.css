@@ -77,9 +77,6 @@ form {
     display:inline
 }
 
-.tt-menu {
-    width: max-content;
-}
 table {
     border-collapse:collapse;
     border-spacing:0
@@ -1696,7 +1693,14 @@ ul.sub-menu ul.sub-menu li:hover>a,ul.children ul.children li:hover>a {
     padding-right:25px
 }
 
-#searchsubmit {position:absolute;right:6px;top:0;bottom:0;border:none;background:none;left: 170px !important;}
+#searchsubmit {
+    position:absolute;
+    right:6px;
+    top:0;
+    bottom:0;
+    border:none;
+    background:none
+}
 #searchsubmit2 {
     position:absolute;
     right:6px;
@@ -1872,8 +1876,9 @@ ul.sub-menu ul.sub-menu li:hover>a,ul.children ul.children li:hover>a {
 }
 
 .single-item-title {
-    font-size:15px;
-    margin-bottom:5px
+font-size:15px;
+margin-bottom:5px;
+height: 30px;
 }
 
 .single-item-price {

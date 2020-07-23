@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel </title>
+    <title>Laravel Shop</title>
     <base href="{{asset('')}}">
     <script src="source/assets/dest/js/jquery.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Dosis:300,400' rel='stylesheet' type='text/css'>
@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="source/assets/dest/vendors/colorbox/example3/colorbox.css">
     <link rel="stylesheet" href="source/assets/dest/rs-plugin/css/settings.css">
     <link rel="stylesheet" href="source/assets/dest/rs-plugin/css/responsive.css">
+    <link rel="stylesheet" href="source/assets/dest/css/sweetalert.css">
     <link rel="stylesheet" title="style" href="source/assets/dest/css/style.css">
     <link rel="stylesheet" href="source/assets/dest/css/animate.css">
     <link rel="stylesheet" title="style" href="source/assets/dest/css/huong-style.css">
@@ -207,7 +208,7 @@
 
 <!-- include js files -->
 
-<script src="source/assets/dest/vendors/jqueryui/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="source/assets/dest/js/sweetalert.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="source/assets/dest/vendors/bxslider/jquery.bxslider.min.js"></script>
 <script src="source/assets/dest/vendors/colorbox/jquery.colorbox-min.js"></script>
@@ -229,6 +230,7 @@
 <script src="source/assets/dest/js/main.js"></script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+
 <!--customjs-->
 <script src="source/assets/dest/js/custom2.js"></script>
 <script>
